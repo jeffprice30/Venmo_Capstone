@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 public class GumItem extends Item implements Munchable{
 
 
-    public GumItem(String name, BigDecimal cost, int amountRemaining) {
-        super(name, cost, amountRemaining);
+    public GumItem(String slot, String name, BigDecimal cost, int amountRemaining) {
+        super(slot, name, cost, amountRemaining);
+        this.itemType = "Gum";
     }
 
     public GumItem() {
@@ -15,6 +16,6 @@ public class GumItem extends Item implements Munchable{
     @Override
     public String getSound()
     {
-        return "Chew Chew, Yum";
+        return "Chew Chew, Yum!";
     }
 }

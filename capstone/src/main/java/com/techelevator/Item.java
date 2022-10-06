@@ -7,11 +7,15 @@ public abstract class Item {
     protected String name;
     protected final BigDecimal cost;
     protected int amountRemaining;
+    protected String slot;
+    protected String itemType;
 
-    public Item(String name, BigDecimal cost, int amountRemaining) {
+
+    public Item(String slot, String name, BigDecimal cost, int amountRemaining) {
         this.name = name;
         this.cost = cost;
         this.amountRemaining = amountRemaining;
+        this.slot = slot;
     }
 
     public Item()
@@ -19,6 +23,8 @@ public abstract class Item {
         this.name = "?";
         this.cost = BigDecimal.valueOf(0.99);
         this.amountRemaining = 1;
+        this.slot = "?";
+        this.itemType = "?";
     }
 
     public String getName() {
@@ -40,4 +46,17 @@ public abstract class Item {
     public void setAmountRemaining(int amountRemaining) {
         this.amountRemaining = amountRemaining;
     }
+
+    public String getSlot() {
+        return slot;
+    }
+
+    public void setSlot(String slot) {
+        this.slot = slot;
+    }
+
+    public String getItemType() {
+        return itemType;
+    }
+
 }
