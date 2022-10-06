@@ -30,7 +30,7 @@ public class SalesReport {
         return boughtItems;
     }
 
-    public String getSales()
+    public void getSales()
     {
         try {
             PrintWriter dataOutput = new PrintWriter(dataFile);
