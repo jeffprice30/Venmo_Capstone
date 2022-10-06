@@ -10,7 +10,6 @@ import java.util.Scanner;
 public class VendingMain {
 
     private List<Item> itemList = new ArrayList<>();
-    private BigDecimal balance;
     final String filePath = "C:\\Users\\Student\\workspace\\capstone-1-team-4\\capstone\\vendingmachine.csv";
 
 
