@@ -1,5 +1,6 @@
 package com.techelevator;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ public class SalesReport {
 
     private BigDecimal totalRevenue = new BigDecimal(0.00);
     private Map<String, Integer> boughtItems = new HashMap<>();
+
 
     public SalesReport()
     {
@@ -29,9 +31,10 @@ public class SalesReport {
     public Map<String, Integer> getBoughtItems() {
         return boughtItems;
     }
+    File dataFile = new File("C:\\Users\\Student\\workspace\\capstone-1-team-4\\capstone\\vendingmachine.csv");
 
-    public void getSales()
-    {
+    public void getSales() {
+
         try {
             PrintWriter dataOutput = new PrintWriter(dataFile);
             for(String s : boughtItems.keySet()) {
