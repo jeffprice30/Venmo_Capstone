@@ -16,6 +16,7 @@ public class VendingMachineCLI {
 	}
 
 	public void run() {
+	//	int menuNumber = 0;
 		BigDecimal balance = new BigDecimal("0.00");
 		System.out.println("Welcome to the Vendo-Matic 800!");
 		while (true) {
@@ -42,10 +43,10 @@ public class VendingMachineCLI {
 								System.out.println(x.getSlot() + "|" + x.getItemType() + "|" + x.getCost() + "|" + x.getName() + ": " + "SOLD OUT");
 							}
 						}
+						break;
 					}
 					case "2": //The Purchase Menu
 					{
-						while(true)
 						{
 							System.out.println("Current Money Provided: $" + balance);
 							System.out.println("");
@@ -77,7 +78,14 @@ public class VendingMachineCLI {
 						}
 					}
 					case "3":
+					{
+						break;
+					}
 
+					default:
+					{
+						System.out.println("I'm sorry, I did not understand that.");
+					}
 				}
 			} else {
 				System.out.println("I'm sorry, I did not understand that.");
@@ -148,5 +156,4 @@ public class VendingMachineCLI {
 
 
 }
-
 
