@@ -38,22 +38,23 @@ public class VendingMain {
                 //Third index (2) is the Item Cost
                 BigDecimal itemCost = new BigDecimal(outputFormatted[2]);
                 //Fourth index (3) is the Item Type, which will determine how it is constructed.
+                String itemType = outputFormatted[3];
                 switch(outputFormatted[3])
                 {
                     case "Gum":
-                        GumItem gum = new GumItem(slot, name, itemCost, 5);
+                        GumItem gum = new GumItem(slot, name, itemCost, itemType);
                         itemList.add(gum);
                         break;
                     case "Candy":
-                        CandyItem candy = new CandyItem(slot, name, itemCost, 5);
+                        CandyItem candy = new CandyItem(slot, name, itemCost, itemType);
                         itemList.add(candy);
                         break;
                     case "Chip":
-                        ChipItem chip = new ChipItem(slot, name, itemCost, 5);
+                        ChipItem chip = new ChipItem(slot, name, itemCost, itemType);
                         itemList.add(chip);
                         break;
                     case "Drink":
-                        DrinkItem drink = new DrinkItem(slot, name, itemCost, 5);
+                        DrinkItem drink = new DrinkItem(slot, name, itemCost, itemType);
                         itemList.add(drink);
                         break;
                 }
@@ -69,7 +70,7 @@ public class VendingMain {
 //outputFormatted[2] = cost
 //outputFormatted[3] = ItemType
 
-//Item c = new Item(outputFormatted[0], outputFormatted[1], outputFormatted[2], outputFormatted[3]);
+//Item c = new Item(outputFormatted[0], outputFormatted[1], outputFormatted[2], amountRemaining, outputFormatted[3]);
 //itemList.add(c);
 
 //

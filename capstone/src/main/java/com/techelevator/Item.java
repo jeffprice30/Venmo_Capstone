@@ -11,7 +11,7 @@ public abstract class Item {
     protected String itemType;
 
 
-    public Item(String slot, String name, BigDecimal cost, int amountRemaining) {
+    public Item(String slot, String name, BigDecimal cost, String itemType) {
         this.name = name;
         this.cost = cost;
         this.amountRemaining = amountRemaining;
