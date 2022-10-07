@@ -16,6 +16,7 @@ public class VendingMachineCLI {
 	}
 
 	public void run() {
+		BigDecimal balance = new BigDecimal("0.00");
 		System.out.println("Welcome to the Vendo-Matic 800!");
 		while (true) {
 			System.out.println("Please make your selection.");
@@ -42,7 +43,39 @@ public class VendingMachineCLI {
 							}
 						}
 					}
-					case "2":
+					case "2": //The Purchase Menu
+					{
+						while(true)
+						{
+							System.out.println("Current Money Provided: $" + balance);
+							System.out.println("");
+							System.out.println("(1) Feed Money");
+							System.out.println("(2) Select Product");
+							System.out.println("(3) Finish Transaction");
+
+							String purchaseMenuInput = userInput.nextLine();
+							switch (purchaseMenuInput)
+							{
+								case "1":
+								{
+									while (true) {
+										System.out.println("Please enter the amount you would like to add in whole dollars only. Enter 'X' to go back.");
+										String moneyFeederInput = userInput.nextLine();
+										if(moneyFeederInput.equalsIgnoreCase("X")){break;}
+										try {
+											int moneyAdded = Integer.parseInt(moneyFeederInput);
+											BigDecimal newMoney = new BigDecimal(moneyAdded);
+											BigDecimal totalBalance = balance.add(newMoney);
+											System.out.println("Your current balance is: $" + totalBalance);
+										} catch (Exception e) {
+											System.out.println("Please enter a WHOLE dollar amount, please.");
+										}
+
+									}
+								}
+							}
+						}
+					}
 					case "3":
 
 				}
