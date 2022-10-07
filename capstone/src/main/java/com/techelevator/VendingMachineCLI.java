@@ -9,7 +9,7 @@ public class VendingMachineCLI {
 	}
 
 	public void run() {
-		System.out.println("Welcome to the Vendo-Matic 800!");
+		System.out.println("Welcome to the Vendo-Matic 800!");`
 		while (true) {
 			System.out.println("Please make your selection.");
 			System.out.println("(1) Display Vending Machine Items");
@@ -17,6 +17,8 @@ public class VendingMachineCLI {
 			System.out.println("(3) Exit");
 			Scanner userInput = new Scanner(System.in);
 			String input = userInput.nextLine();
+
+
 			if (input != null) {
 				switch (input) {
 					case "1":

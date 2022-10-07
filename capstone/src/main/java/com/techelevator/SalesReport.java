@@ -31,7 +31,7 @@ public class SalesReport {
     public Map<String, Integer> getBoughtItems() {
         return boughtItems;
     }
-    File dataFile = new File("C:\\Users\\Student\\workspace\\capstone-1-team-4\\capstone\\vendingmachine.csv");
+    File dataFile = new File("C:\\Users\\Student\\workspace\\capstone-1-team-4\\capstone\\salesreport.csv");
 
     public void getSales() {
 
