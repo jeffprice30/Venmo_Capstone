@@ -3,6 +3,7 @@ package com.techelevator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -47,7 +48,8 @@ public class VendingMachineCLI {
 					}
 					case "2": //The Purchase Menu
 					{
-						{
+							while (true) {
+
 							System.out.println("Current Money Provided: $" + balance);
 							System.out.println("");
 							System.out.println("(1) Feed Money");
@@ -66,13 +68,41 @@ public class VendingMachineCLI {
 										try {
 											int moneyAdded = Integer.parseInt(moneyFeederInput);
 											BigDecimal newMoney = new BigDecimal(moneyAdded);
-											BigDecimal totalBalance = balance.add(newMoney);
-											System.out.println("Your current balance is: $" + totalBalance);
+											balance = balance.add(newMoney);
+											System.out.println("Your current balance is: $" + balance);
 										} catch (Exception e) {
 											System.out.println("Please enter a WHOLE dollar amount, please.");
 										}
 
 									}
+									break;
+								}
+								case "2":
+								{
+									this.getInventory();
+									for(Item x : itemList)
+									{
+										if(x.getAmountRemaining() > 0)
+										{
+											System.out.println(x.getSlot() + "|" + x.getItemType() + "|" + x.getCost() + "|" + x.getName() + ": " + x.getAmountRemaining() + " More Left");
+										}
+										else
+										{
+											System.out.println(x.getSlot() + "|" + x.getItemType() + "|" + x.getCost() + "|" + x.getName() + ": " + "SOLD OUT");
+										}
+									}
+									System.out.println("Enter slot number of the item you would like ");
+									String itemSelect = userInput.nextLine();
+									for (Item x : itemList) {
+										if (x.getSlot().equalsIgnoreCase(itemSelect) && balance.compareTo(x.getCost()) >= 0) {
+											balance = balance.subtract(x.getCost());
+											//add x.getCost to the sales report revenue
+											System.out.println("Item " + x.name + " Cost " + x.getCost() + " Money Remaining " + balance);
+											System.out.println(x.getSound());
+
+										}
+									}
+									break;
 								}
 							}
 						}

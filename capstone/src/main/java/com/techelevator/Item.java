@@ -2,7 +2,7 @@ package com.techelevator;
 
 import java.math.BigDecimal;
 
-public abstract class Item {
+public abstract class Item implements Munchable {
 
     protected String name;
     protected final BigDecimal cost;
@@ -58,5 +58,5 @@ public abstract class Item {
     public String getItemType() {
         return itemType;
     }
-
+    public abstract String getSound();
 }
