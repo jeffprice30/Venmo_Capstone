@@ -109,6 +109,7 @@ public class VendingMachineCLI {
 											balance = balance.subtract(x.getCost());
 											x.amountRemaining -= 1;
 											//add x.getCost to the sales report revenue
+											//open log files to log the transaction
 											System.out.println("Item " + x.name + " Cost " + x.getCost() + " Money Remaining " + balance);
 											System.out.println(x.getSound());
 
@@ -119,7 +120,29 @@ public class VendingMachineCLI {
 								}
 								case "3": // Purchase Menu (Finish Transaction)
 								{
-									
+									BigDecimal amountToBeReturned = new BigDecimal("100.00");
+									amountToBeReturned = amountToBeReturned.multiply(balance);
+									int balanceAsInteger = amountToBeReturned.intValueExact();
+									int quarters = 0;
+									int dimes = 0;
+									int nickels = 0;
+									quarters = balanceAsInteger / 25;
+									balanceAsInteger -= 25*quarters;
+									if (balanceAsInteger != 0)
+									{
+										dimes = balanceAsInteger / 10;
+										balanceAsInteger -= 10*dimes;
+									}
+									if( balanceAsInteger != 0)
+									{
+										nickels = balanceAsInteger / 5;
+										balanceAsInteger -= 5*nickels;
+									}
+									System.out.println("Your balance is: $" + balance);
+									System.out.println("Here is your change.");
+									System.out.println(quarters + " Quarters, " + dimes + " Dimes, and " + nickels + " Nickels was returned from the vending machine.");
+									balance = balance.subtract(balance);
+									System.out.println("Thank you for your patronage!");
 									break;
 								}
 							}
