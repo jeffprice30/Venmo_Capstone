@@ -57,7 +57,8 @@ public class VendingMachineCLI {
 					}
 					case "2": //The Purchase Menu
 					{
-							while (true) {
+						boolean loopChecker = true;
+						while (loopChecker) {
 
 							System.out.println("Current Money Provided: $" + balance);
 							System.out.println("");
@@ -65,7 +66,8 @@ public class VendingMachineCLI {
 							System.out.println("(2) Select Product");
 							System.out.println("(3) Finish Transaction");
 
-							String purchaseMenuInput = userInput.nextLine();
+
+							String purchaseMenuInput = userInput.nextLine().toLowerCase();
 							//Purchase Menu input begins here
 							switch (purchaseMenuInput)
 							{
@@ -91,6 +93,7 @@ public class VendingMachineCLI {
 										}
 
 									}
+									loopChecker = true;
 									break;
 								}
 								case "2": // Purchase Menu (Select Product)
@@ -145,6 +148,7 @@ public class VendingMachineCLI {
 
 									}
 
+									loopChecker = true;
 									break;
 								}
 								case "3": // Purchase Menu (Finish Transaction)
@@ -186,8 +190,15 @@ public class VendingMachineCLI {
 
 									System.out.println("Thank you for your patronage!");
 
+									loopChecker = true;
 									break;
 								}
+								case "x": //Purchase menu return to Main Menu
+								{
+									loopChecker = false;
+									break;
+								}
+
 							}
 						}
 					}
