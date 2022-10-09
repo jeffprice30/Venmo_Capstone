@@ -12,7 +12,7 @@ public class VendingMachineCLI {
 
 	private List<Item> itemList = new ArrayList<>();
 	final String filePath = "C:\\Users\\Student\\workspace\\capstone-1-team-4\\capstone\\vendingmachine.csv";
-
+	final String logPath = "C:\\Users\\Student\\workspace\\capstone-1-team-4\\capstone\\Log.txt";
 	public VendingMachineCLI() {
 	}
 
@@ -21,6 +21,7 @@ public class VendingMachineCLI {
 		BigDecimal balance = new BigDecimal("0.00");
 		System.out.println("Welcome to the Vendo-Matic 800!");
 		this.getInventory();
+		File logFile = new File(logPath);
 		while (true) {
 			System.out.println("Please make your selection.");
 			System.out.println("(1) Display Vending Machine Items");
