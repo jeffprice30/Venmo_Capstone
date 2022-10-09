@@ -2,8 +2,14 @@ package com.techelevator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -29,6 +35,7 @@ public class VendingMachineCLI {
 			System.out.println("(3) Exit");
 			Scanner userInput = new Scanner(System.in);
 			String input = userInput.nextLine();
+
 
 			if (input != null) {
 				switch (input) {
@@ -68,11 +75,17 @@ public class VendingMachineCLI {
 										System.out.println("Please enter the amount you would like to add in whole dollars only. Enter 'X' to go back.");
 										String moneyFeederInput = userInput.nextLine();
 										if(moneyFeederInput.equalsIgnoreCase("X")){break;}
-										try {
+										try (final FileOutputStream fos = new FileOutputStream(logFile, true);
+											 final PrintWriter writer = new PrintWriter(fos)) {
 											int moneyAdded = Integer.parseInt(moneyFeederInput);
 											BigDecimal newMoney = new BigDecimal(moneyAdded);
 											balance = balance.add(newMoney);
 											System.out.println("Your current balance is: $" + balance);
+											LocalDate nowDate = LocalDate.now();
+											LocalTime nowTime = LocalTime.now();
+											writer.printf("%s %s FEED MONEY: $%s.00 $%s\n", nowDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")), nowTime.format(DateTimeFormatter.ofPattern("KK:mm:ss a")),newMoney, balance);
+										} catch (FileNotFoundException fnfe) {
+											System.out.println("could not create the file");
 										} catch (Exception e) {
 											System.out.println("Please enter a WHOLE dollar amount, please.");
 										}
@@ -109,20 +122,37 @@ public class VendingMachineCLI {
 										else if (x.getSlot().equalsIgnoreCase(itemSelect) && balance.compareTo(x.getCost()) >= 0) {
 											balance = balance.subtract(x.getCost());
 											x.amountRemaining -= 1;
-											//add x.getCost to the sales report revenue
+											try (final FileOutputStream fos = new FileOutputStream(logFile, true);
+												 final PrintWriter writer = new PrintWriter(fos)) {
+												LocalDate nowDate = LocalDate.now();
+												LocalTime nowTime = LocalTime.now();
+												writer.printf("%s %s %s %s $%s $%s\n", nowDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")), nowTime.format(DateTimeFormatter.ofPattern("KK:mm:ss a")),x.getName(),x.getSlot(), x.getCost(), balance);
+
+
+											} 	catch (FileNotFoundException fnfe) {
+												System.out.println("could not create the file");
+											}	catch (Exception e) {
+												System.out.println("An error occurred");
+											}
+
+
+										//add x.getCost to the sales report revenue
 											//open log files to log the transaction
-											System.out.println("Item " + x.name + " Cost " + x.getCost() + " Money Remaining " + balance);
+											System.out.println("Item " + x.getName() + " Cost " + x.getCost() + " Money Remaining " + balance);
 											System.out.println(x.getSound());
 
 										}
 
 									}
+
 									break;
 								}
 								case "3": // Purchase Menu (Finish Transaction)
 								{
 									BigDecimal amountToBeReturned = new BigDecimal("100.00");
 									amountToBeReturned = amountToBeReturned.multiply(balance);
+									BigDecimal oldBalance = new BigDecimal("0.00");
+									oldBalance = oldBalance.add(balance);
 									int balanceAsInteger = amountToBeReturned.intValueExact();
 									int quarters = 0;
 									int dimes = 0;
@@ -143,7 +173,19 @@ public class VendingMachineCLI {
 									System.out.println("Here is your change.");
 									System.out.println(quarters + " Quarters, " + dimes + " Dimes, and " + nickels + " Nickels was returned from the vending machine.");
 									balance = balance.subtract(balance);
+									try (final FileOutputStream fos = new FileOutputStream(logFile, true);
+										 final PrintWriter writer = new PrintWriter(fos)) {
+										LocalDate nowDate = LocalDate.now();
+										LocalTime nowTime = LocalTime.now();
+										writer.printf("%s %s GIVE CHANGE: $%s $%s\n", nowDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")), nowTime.format(DateTimeFormatter.ofPattern("KK:mm:ss a")),oldBalance,balance);
+									} 	catch (FileNotFoundException fnfe) {
+										System.out.println("could not create the file");
+									}	catch (Exception e) {
+										System.out.println("An error occurred");
+									}
+
 									System.out.println("Thank you for your patronage!");
+
 									break;
 								}
 							}
