@@ -20,6 +20,7 @@ public class VendingMachineCLI {
 	//	int menuNumber = 0;
 		BigDecimal balance = new BigDecimal("0.00");
 		System.out.println("Welcome to the Vendo-Matic 800!");
+		this.getInventory();
 		while (true) {
 			System.out.println("Please make your selection.");
 			System.out.println("(1) Display Vending Machine Items");
@@ -32,7 +33,7 @@ public class VendingMachineCLI {
 				switch (input) {
 					case "1":
 					{
-						this.getInventory();
+						//this.getInventory();
 						for(Item x : itemList)
 						{
 							if(x.getAmountRemaining() > 0)
@@ -57,9 +58,10 @@ public class VendingMachineCLI {
 							System.out.println("(3) Finish Transaction");
 
 							String purchaseMenuInput = userInput.nextLine();
+							//Purchase Menu input begins here
 							switch (purchaseMenuInput)
 							{
-								case "1":
+								case "1": // Purchase Menu (Feed Money)
 								{
 									while (true) {
 										System.out.println("Please enter the amount you would like to add in whole dollars only. Enter 'X' to go back.");
@@ -77,9 +79,9 @@ public class VendingMachineCLI {
 									}
 									break;
 								}
-								case "2":
+								case "2": // Purchase Menu (Select Product)
 								{
-									this.getInventory();
+									//this.getInventory();
 									for(Item x : itemList)
 									{
 										if(x.getAmountRemaining() > 0)
@@ -94,14 +96,30 @@ public class VendingMachineCLI {
 									System.out.println("Enter slot number of the item you would like ");
 									String itemSelect = userInput.nextLine();
 									for (Item x : itemList) {
-										if (x.getSlot().equalsIgnoreCase(itemSelect) && balance.compareTo(x.getCost()) >= 0) {
+
+										if(x.getSlot().equalsIgnoreCase(itemSelect) && x.getAmountRemaining() <= 0)
+										{
+											System.out.println("Sorry, this item is Sold Out.");
+										}
+										else if(x.getSlot().equalsIgnoreCase(itemSelect) && balance.compareTo(x.getCost()) < 0)
+										{
+											System.out.println("You do not have enough money to purchase this product.");
+										}
+										else if (x.getSlot().equalsIgnoreCase(itemSelect) && balance.compareTo(x.getCost()) >= 0) {
 											balance = balance.subtract(x.getCost());
+											x.amountRemaining -= 1;
 											//add x.getCost to the sales report revenue
 											System.out.println("Item " + x.name + " Cost " + x.getCost() + " Money Remaining " + balance);
 											System.out.println(x.getSound());
 
 										}
+
 									}
+									break;
+								}
+								case "3": // Purchase Menu (Finish Transaction)
+								{
+									
 									break;
 								}
 							}
