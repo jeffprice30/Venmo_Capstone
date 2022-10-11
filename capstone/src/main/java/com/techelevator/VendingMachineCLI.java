@@ -24,11 +24,12 @@ public class VendingMachineCLI {
 
 	public void run() {
 	//	int menuNumber = 0;
+		boolean menu = true;
 		BigDecimal balance = new BigDecimal("0.00");
 		System.out.println("Welcome to the Vendo-Matic 800!");
 		this.getInventory();
 		File logFile = new File(logPath);
-		while (true) {
+		while (menu) {
 			System.out.println("Please make your selection.");
 			System.out.println("(1) Display Vending Machine Items");
 			System.out.println("(2) Purchase");
@@ -53,6 +54,7 @@ public class VendingMachineCLI {
 								System.out.println(x.getSlot() + "|" + x.getItemType() + "|" + x.getCost() + "|" + x.getName() + ": " + "SOLD OUT");
 							}
 						}
+						System.out.println("");
 						break;
 					}
 					case "2": //The Purchase Menu
@@ -74,7 +76,8 @@ public class VendingMachineCLI {
 								case "1": // Purchase Menu (Feed Money)
 								{
 									while (true) {
-										System.out.println("Please enter the amount you would like to add in whole dollars only. Enter 'X' to go back.");
+										System.out.println("Please enter the amount you would like to add in whole dollars only.");
+										System.out.println("Enter 'X' to go back.");
 										String moneyFeederInput = userInput.nextLine();
 										if(moneyFeederInput.equalsIgnoreCase("X")){break;}
 										try (final FileOutputStream fos = new FileOutputStream(logFile, true);
@@ -83,6 +86,7 @@ public class VendingMachineCLI {
 											BigDecimal newMoney = new BigDecimal(moneyAdded);
 											balance = balance.add(newMoney);
 											System.out.println("Your current balance is: $" + balance);
+											System.out.println("");
 											LocalDate nowDate = LocalDate.now();
 											LocalTime nowTime = LocalTime.now();
 											writer.printf("%s %s FEED MONEY: $%s.00 $%s\n", nowDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")), nowTime.format(DateTimeFormatter.ofPattern("KK:mm:ss a")),newMoney, balance);
@@ -90,6 +94,7 @@ public class VendingMachineCLI {
 											System.out.println("could not create the file");
 										} catch (Exception e) {
 											System.out.println("Please enter a WHOLE dollar amount, please.");
+											System.out.println("");
 										}
 
 									}
@@ -110,6 +115,7 @@ public class VendingMachineCLI {
 											System.out.println(x.getSlot() + "|" + x.getItemType() + "|" + x.getCost() + "|" + x.getName() + ": " + "SOLD OUT");
 										}
 									}
+									System.out.println("");
 									System.out.println("Enter slot number of the item you would like ");
 									String itemSelect = userInput.nextLine();
 									for (Item x : itemList) {
@@ -117,10 +123,12 @@ public class VendingMachineCLI {
 										if(x.getSlot().equalsIgnoreCase(itemSelect) && x.getAmountRemaining() <= 0)
 										{
 											System.out.println("Sorry, this item is Sold Out.");
+											System.out.println("");
 										}
 										else if(x.getSlot().equalsIgnoreCase(itemSelect) && balance.compareTo(x.getCost()) < 0)
 										{
 											System.out.println("You do not have enough money to purchase this product.");
+											System.out.println("");
 										}
 										else if (x.getSlot().equalsIgnoreCase(itemSelect) && balance.compareTo(x.getCost()) >= 0) {
 											balance = balance.subtract(x.getCost());
@@ -143,6 +151,7 @@ public class VendingMachineCLI {
 											//open log files to log the transaction
 											System.out.println("Item " + x.getName() + " Cost " + x.getCost() + " Money Remaining " + balance);
 											System.out.println(x.getSound());
+											System.out.println("");
 
 										}
 
@@ -187,8 +196,8 @@ public class VendingMachineCLI {
 									}	catch (Exception e) {
 										System.out.println("An error occurred");
 									}
-
 									System.out.println("Thank you for your patronage!");
+									System.out.println("");
 
 									loopChecker = true;
 									break;
@@ -204,6 +213,8 @@ public class VendingMachineCLI {
 					}
 					case "3":
 					{
+						System.out.println("Thank you for using the Vendo-Matic 800! Umbrella Corp will see you again soon...");
+						menu = false;
 						break;
 					}
 
