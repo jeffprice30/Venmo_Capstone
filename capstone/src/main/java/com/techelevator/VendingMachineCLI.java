@@ -67,6 +67,7 @@ public class VendingMachineCLI {
 							System.out.println("(1) Feed Money");
 							System.out.println("(2) Select Product");
 							System.out.println("(3) Finish Transaction");
+							System.out.println("Enter 'X' to return to the main menu.");
 
 
 							String purchaseMenuInput = userInput.nextLine().toLowerCase();
@@ -209,7 +210,7 @@ public class VendingMachineCLI {
 								}
 
 							}
-						}
+						} break;
 					}
 					case "3":
 					{
