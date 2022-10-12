@@ -16,6 +16,12 @@ import java.util.Scanner;
 
 public class VendingMachineCLI {
 
+	public static void main(String[] args) {
+		VendingMachineCLI cli = new VendingMachineCLI();
+		cli.run();
+	}
+
+
 	private List<Item> itemList = new ArrayList<>();
 	final String filePath = "C:\\Users\\Student\\workspace\\capstone-1-team-4\\capstone\\vendingmachine.csv";
 	final String logPath = "C:\\Users\\Student\\workspace\\capstone-1-team-4\\capstone\\Log.txt";
@@ -29,46 +35,48 @@ public class VendingMachineCLI {
 		System.out.println("Welcome to the Vendo-Matic 800!");
 		this.getInventory();
 		File logFile = new File(logPath);
+
+		displayPrint display = new displayPrint();
+
+
 		while (menu) {
-			System.out.println("Please make your selection.");
-			System.out.println("(1) Display Vending Machine Items");
-			System.out.println("(2) Purchase");
-			System.out.println("(3) Exit");
+//			System.out.println("Please make your selection.");
+//			System.out.println("(1) Display Vending Machine Items");
+//			System.out.println("(2) Purchase");
+//			System.out.println("(3) Exit");
+
+			display.displayMainMenu();
+
 			Scanner userInput = new Scanner(System.in);
 			String input = userInput.nextLine();
 
 
 			if (input != null) {
 				switch (input) {
-					case "1":
-					{
+					case "1": {
 						//this.getInventory();
-						for(Item x : itemList)
-						{
-							if(x.getAmountRemaining() > 0)
-							{
-								System.out.println(x.getSlot() + "|" + x.getItemType() + "|" + x.getCost() + "|" + x.getName() + ": " + x.getAmountRemaining() + " More Left");
-							}
-							else
-							{
-								System.out.println(x.getSlot() + "|" + x.getItemType() + "|" + x.getCost() + "|" + x.getName() + ": " + "SOLD OUT");
-							}
-						}
-						System.out.println("");
+//						for(Item x : itemList) {
+//							if(x.getAmountRemaining() > 0) 	{
+//								System.out.println(x.getSlot() + "|" + x.getItemType() + "|" + x.getCost() + "|" + x.getName() + ": " + x.getAmountRemaining() + " More Left");
+//							} else {
+//								System.out.println(x.getSlot() + "|" + x.getItemType() + "|" + x.getCost() + "|" + x.getName() + ": " + "SOLD OUT");
+//							}
+//						}
+						display.displayInventory( itemList);
 						break;
-					}
-					case "2": //The Purchase Menu
+					} case "2": //The Purchase Menu
 					{
 						boolean loopChecker = true;
 						while (loopChecker) {
 
-							System.out.println("Current Money Provided: $" + balance);
-							System.out.println("");
-							System.out.println("(1) Feed Money");
-							System.out.println("(2) Select Product");
-							System.out.println("(3) Finish Transaction");
-							System.out.println("Enter 'X' to return to the main menu.");
+//							System.out.println("Current Money Provided: $" + balance);
+//							System.out.println("");
+//							System.out.println("(1) Feed Money");
+//							System.out.println("(2) Select Product");
+//							System.out.println("(3) Finish Transaction");
+//							System.out.println("Enter 'X' to return to the main menu.");
 
+							display.displayPurchaseMenu(balance);
 
 							String purchaseMenuInput = userInput.nextLine().toLowerCase();
 							//Purchase Menu input begins here
@@ -84,6 +92,9 @@ public class VendingMachineCLI {
 										try (final FileOutputStream fos = new FileOutputStream(logFile, true);
 											 final PrintWriter writer = new PrintWriter(fos)) {
 											int moneyAdded = Integer.parseInt(moneyFeederInput);
+											if (moneyAdded < 0) {
+												throw new RuntimeException();
+											}
 											BigDecimal newMoney = new BigDecimal(moneyAdded);
 											balance = balance.add(newMoney);
 											System.out.println("Your current balance is: $" + balance);
@@ -94,7 +105,7 @@ public class VendingMachineCLI {
 										} catch (FileNotFoundException fnfe) {
 											System.out.println("could not create the file");
 										} catch (Exception e) {
-											System.out.println("Please enter a WHOLE dollar amount, please.");
+											System.out.println("Please enter a positive, WHOLE dollar amount.");
 											System.out.println("");
 										}
 
@@ -105,29 +116,24 @@ public class VendingMachineCLI {
 								case "2": // Purchase Menu (Select Product)
 								{
 									//this.getInventory();
-									for(Item x : itemList)
-									{
-										if(x.getAmountRemaining() > 0)
-										{
-											System.out.println(x.getSlot() + "|" + x.getItemType() + "|" + x.getCost() + "|" + x.getName() + ": " + x.getAmountRemaining() + " More Left");
-										}
-										else
-										{
-											System.out.println(x.getSlot() + "|" + x.getItemType() + "|" + x.getCost() + "|" + x.getName() + ": " + "SOLD OUT");
-										}
-									}
+//									for(Item x : itemList) {
+//										if(x.getAmountRemaining() > 0) {
+//											System.out.println(x.getSlot() + "|" + x.getItemType() + "|" + x.getCost() + "|" + x.getName() + ": " + x.getAmountRemaining() + " More Left");
+//										} else {
+//											System.out.println(x.getSlot() + "|" + x.getItemType() + "|" + x.getCost() + "|" + x.getName() + ": " + "SOLD OUT");
+//										}
+//									}
+									display.displayInventory( itemList);
 									System.out.println("");
 									System.out.println("Enter slot number of the item you would like ");
 									String itemSelect = userInput.nextLine();
 									for (Item x : itemList) {
 
-										if(x.getSlot().equalsIgnoreCase(itemSelect) && x.getAmountRemaining() <= 0)
-										{
+										if(x.getSlot().equalsIgnoreCase(itemSelect) && x.getAmountRemaining() <= 0) {
 											System.out.println("Sorry, this item is Sold Out.");
 											System.out.println("");
 										}
-										else if(x.getSlot().equalsIgnoreCase(itemSelect) && balance.compareTo(x.getCost()) < 0)
-										{
+										else if(x.getSlot().equalsIgnoreCase(itemSelect) && balance.compareTo(x.getCost()) < 0) {
 											System.out.println("You do not have enough money to purchase this product.");
 											System.out.println("");
 										}
@@ -139,8 +145,6 @@ public class VendingMachineCLI {
 												LocalDate nowDate = LocalDate.now();
 												LocalTime nowTime = LocalTime.now();
 												writer.printf("%s %s %s %s $%s $%s\n", nowDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")), nowTime.format(DateTimeFormatter.ofPattern("KK:mm:ss a")),x.getName(),x.getSlot(), x.getCost(), balance);
-
-
 											} 	catch (FileNotFoundException fnfe) {
 												System.out.println("could not create the file");
 											}	catch (Exception e) {
@@ -200,14 +204,14 @@ public class VendingMachineCLI {
 									System.out.println("Thank you for your patronage!");
 									System.out.println("");
 
-									loopChecker = true;
-									break;
-								}
-								case "x": //Purchase menu return to Main Menu
-								{
 									loopChecker = false;
 									break;
 								}
+//								case "x": //Purchase menu return to Main Menu
+//								{
+//									loopChecker = false;
+//									break;
+//								}
 
 							}
 						} break;
@@ -231,13 +235,10 @@ public class VendingMachineCLI {
 	}
 
 
-	public List<Item> getInventory()
-	{
+	public List<Item> getInventory() {
 		//create a file object for the datafile
 		File inventoryFile = new File(filePath);
 		Scanner fileReader;
-
-
 
 		//opens the file
 		try {
@@ -247,7 +248,6 @@ public class VendingMachineCLI {
 				String dataFileOutput = fileReader.nextLine();
 				//and then store those values in a String array.
 				String[] outputFormatted = dataFileOutput.split("\\|");
-
 				//Now that we have accumulated all the data from the line, parse the data into the following:
 				//First index (0) is the Vending Machine Slot
 				String slot = outputFormatted[0];
@@ -257,8 +257,7 @@ public class VendingMachineCLI {
 				BigDecimal itemCost = new BigDecimal(outputFormatted[2]);
 				//Fourth index (3) is the Item Type, which will determine how it is constructed.
 				String itemType = outputFormatted[3];
-				switch(outputFormatted[3])
-				{
+				switch(outputFormatted[3]) {
 					case "Gum":
 						GumItem gum = new GumItem(slot, name, itemCost, itemType);
 						itemList.add(gum);
@@ -282,15 +281,6 @@ public class VendingMachineCLI {
 			return itemList;
 
 	}
-
-
-
-	public static void main(String[] args) {
-		VendingMachineCLI cli = new VendingMachineCLI();
-		cli.run();
-	}
-
-
 
 }
 
